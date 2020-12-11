@@ -77,6 +77,6 @@ RUN apt-get update -qq \
 COPY --from=builder /opt/ants /opt/ants
 RUN echo $(/opt/ants/bin/antsRegistration --version)
 ENV ANTSPATH="/opt/ants" \
-    PATH="/opt/ants:$PATH"
+    PATH="/opt/ants/bin:$PATH"
 ENV SHELL=/bin/bash
 CMD ["/bin/bash"]
