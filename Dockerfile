@@ -56,6 +56,9 @@ RUN apt-get remove -y -q --purge  \
 FROM debian:buster-slim
 ENV LANG="en_US.UTF-8" \
     LC_ALL="en_US.UTF-8"
+RUN export GCSFUSE_REPO=gcsfuse-$(lsb_release -c -s) \
+    && echo "deb http://packages.cloud.google.com/apt $GCSFUSE_REPO main" | tee /etc/apt/sources.list.d/gcsfuse.list \
+    && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 RUN apt-get update -qq \
     && apt-get install -y -q --no-install-recommends \
            apt-utils \
@@ -65,6 +68,7 @@ RUN apt-get update -qq \
            locales \
            unzip \
            git \
+           gcsfuse \
      && apt-get clean \
      && rm -rf /var/lib/apt/lists/* \
      && sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
